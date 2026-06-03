@@ -1,7 +1,11 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 add_newline = false
-format = "$directory$git_branch$git_status$nodejs$bun$cmd_duration$character"
+format = "$hostname$directory$git_branch$git_status$nodejs$bun$cmd_duration$character"
 right_format = "$time"
+
+[hostname]
+ssh_only = true
+format = "[\\($hostname\\)](bold red) "
 
 [directory]
 format = "[$path](cyan) "

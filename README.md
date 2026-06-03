@@ -58,6 +58,29 @@ Open a new shell or run:
 exec zsh
 ```
 
+## Remote hosts
+
+For SSH-heavy workflows, Starship shows the hostname only inside SSH sessions:
+
+```text
+(hostname) path git branch >
+```
+
+On a new machine, clone and install the config:
+
+```bash
+mkdir -p ~/.local/share
+git clone https://github.com/mauriciopolvora/zsh.git ~/.local/share/zsh-config
+~/.local/share/zsh-config/install.sh
+exec zsh
+```
+
+The config is defensive: if tools like `starship`, `eza`, `fzf`, `zoxide`, `bun`, `fnm`, or `terraform` are not installed on a remote host, those integrations are skipped. If `starship` is missing during SSH, the prompt falls back to:
+
+```text
+(hostname) ~/path >
+```
+
 ## Notes
 
 - The root `.zshrc` is just a compatibility shim that sources `~/.config/zsh/.zshrc`.
