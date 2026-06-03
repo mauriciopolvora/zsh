@@ -17,6 +17,16 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export STARSHIP_CONFIG="$ZDOTDIR/starship.toml"
 
+if [[ -n "${ZSH_VERSION:-}" && -d "$HOME/.local/opt/zsh" ]]; then
+  for dir in "$HOME"/.local/opt/zsh/usr/lib/*/zsh/"$ZSH_VERSION"(N); do
+    module_path=("$dir" $module_path)
+  done
+
+  for dir in "$HOME"/.local/opt/zsh/usr/share/zsh/functions(N) "$HOME"/.local/opt/zsh/usr/share/zsh/functions/*(N/); do
+    fpath=("$dir" $fpath)
+  done
+fi
+
 if tty -s; then
   export GPG_TTY="$(tty)"
 fi
