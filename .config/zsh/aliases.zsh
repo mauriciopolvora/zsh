@@ -15,10 +15,23 @@ if command -v bat >/dev/null 2>&1; then
 fi
 
 alias df='df -h'
-alias vim='nvim'
-alias cc='claude --dangerously-skip-permissions'
 alias -- -='cd -'
 alias reload='exec zsh'
+
+if command -v nvim >/dev/null 2>&1; then
+  alias vim='nvim'
+elif ! command -v vim >/dev/null 2>&1 && command -v vi >/dev/null 2>&1; then
+  alias vim='vi'
+fi
+
+cc() {
+  if command -v claude >/dev/null 2>&1; then
+    claude --dangerously-skip-permissions "$@"
+  else
+    print -u2 'cc: claude is not installed on this machine'
+    return 127
+  fi
+}
 
 alias g='git'
 alias gs='git status -sb'
