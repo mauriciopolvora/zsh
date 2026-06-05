@@ -4,6 +4,10 @@ if command -v eza >/dev/null 2>&1; then
   alias la='eza -lah --icons=auto --git'
   alias tree='eza --tree --icons=auto'
   compdef eza=ls
+else
+  alias ll='ls -lh'
+  alias la='ls -lah'
+  alias tree='find . -print'
 fi
 
 if command -v bat >/dev/null 2>&1; then
