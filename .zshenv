@@ -10,6 +10,11 @@ if [[ -d /opt/homebrew/bin ]]; then
 fi
 
 export PATH="$HOME/.local/bin:$PATH"
+if [[ -d "$HOME/.local/opt/eza/usr/lib" ]]; then
+  for dir in "$HOME"/.local/opt/eza/usr/lib/*(N/); do
+    export LD_LIBRARY_PATH="$dir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+  done
+fi
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 

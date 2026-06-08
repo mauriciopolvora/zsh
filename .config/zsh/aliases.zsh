@@ -3,7 +3,7 @@ if command -v eza >/dev/null 2>&1; then
   alias ll='eza -lh --icons=auto --git'
   alias la='eza -lah --icons=auto --git'
   alias tree='eza --tree --icons=auto'
-  compdef eza=ls
+  whence -w compdef >/dev/null 2>&1 && compdef eza=ls 2>/dev/null
 else
   alias ll='ls -lh'
   alias la='ls -lah'
