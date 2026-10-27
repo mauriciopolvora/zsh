@@ -14,47 +14,16 @@ setopt NUMERIC_GLOB_SORT
 
 mkdir -p "$XDG_STATE_HOME/zsh" "$XDG_CACHE_HOME/zsh"
 
-if [[ -d "$ZDOTDIR/completions" ]]; then
-  fpath=("$ZDOTDIR/completions" $fpath)
-fi
-
-if [[ -d /opt/homebrew/share/zsh/site-functions ]]; then
-  fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
-fi
-
-if [[ -d /usr/local/share/zsh/site-functions ]]; then
-  fpath=(/usr/local/share/zsh/site-functions $fpath)
-fi
-
-autoload -Uz compinit
-compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
-
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*' use-cache yes
-zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh"
-zstyle ':completion:*' squeeze-slashes true
-zstyle ':completion:*' special-dirs true
+source "$ZDOTDIR/completion.zsh"
 
 if command -v zoxide >/dev/null 2>&1; then
-  eval "$(zoxide init zsh)"
+  eval "$(zoxide init zsh --cmd cd)"
 fi
 
 source "$ZDOTDIR/aliases.zsh"
 source "$ZDOTDIR/tooling.zsh"
 
 if [[ -t 0 && -t 1 ]]; then
-  if [[ -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh ]]; then
-    source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
-    source /opt/homebrew/opt/fzf/shell/completion.zsh
-  elif [[ -f /usr/local/opt/fzf/shell/key-bindings.zsh ]]; then
-    source /usr/local/opt/fzf/shell/key-bindings.zsh
-    source /usr/local/opt/fzf/shell/completion.zsh
-  fi
-
   source "$ZDOTDIR/fzf.zsh"
   source "$ZDOTDIR/plugins.zsh"
   source "$ZDOTDIR/bindings.zsh"
