@@ -34,6 +34,7 @@ cc() {
 }
 
 alias g='git'
+whence -w compdef >/dev/null 2>&1 && compdef g=git 2>/dev/null
 alias gs='git status -sb'
 alias gp='git push'
 alias gc='git commit'
