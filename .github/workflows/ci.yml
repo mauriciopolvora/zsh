@@ -46,7 +46,10 @@ jobs:
         with:
           persist-credentials: false
       - name: install zsh
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends zsh
+        # The runner image ships apt lists, so skip the slow update unless the install fails on a stale list.
+        run: |
+          inst() { sudo apt-get install -y -qq --no-install-recommends zsh; }
+          inst || { sudo apt-get update -qq && inst; }
       - name: zsh -n on the zsh files, sh -n on install.sh
         run: |
           git ls-files -z -- .zshenv .zshrc .config/zsh/.zshrc '.config/zsh/*.zsh' '.config/zsh/completions/*' | xargs -0 -n1 zsh -n
