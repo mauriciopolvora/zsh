@@ -13,6 +13,11 @@ concurrency:
 permissions:
   contents: read
 
+# An explicit bash shell turns on pipefail, so a failed command early in a pipe fails the step.
+defaults:
+  run:
+    shell: bash
+
 jobs:
   gitleaks:
     runs-on: ubuntu-latest
