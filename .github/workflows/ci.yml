@@ -50,12 +50,13 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: install zsh
-        # The runner image ships apt lists, so skip the slow update unless the install fails on a stale list.
+      - name: get zsh
+        # Unpack only the zsh binary. A dpkg install reads the whole package database and took 7 to 17s here.
+        working-directory: ${{ runner.temp }}
         run: |
-          inst() { sudo apt-get install -y -qq --no-install-recommends zsh; }
-          inst || { sudo apt-get update -qq && inst; }
+          get() { apt-get download -qq zsh && dpkg-deb -x zsh_*.deb zsh-root; }
+          get || { sudo apt-get update -qq && rm -rf zsh_*.deb zsh-root && get; }
       - name: zsh -n on the zsh files, sh -n on install.sh
         run: |
-          git ls-files -z -- .zshenv .zshrc .config/zsh/.zshrc '.config/zsh/*.zsh' '.config/zsh/completions/*' | xargs -0 -n1 zsh -n
+          git ls-files -z -- .zshenv .zshrc .config/zsh/.zshrc '.config/zsh/*.zsh' '.config/zsh/completions/*' | xargs -0 -n1 "$RUNNER_TEMP/zsh-root/bin/zsh" -n
           sh -n install.sh
