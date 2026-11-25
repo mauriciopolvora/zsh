@@ -56,7 +56,11 @@ jobs:
         run: |
           get() { apt-get download -qq zsh && dpkg-deb -x zsh_*.deb zsh-root; }
           get || { sudo apt-get update -qq && rm -rf zsh_*.deb zsh-root && get; }
+          # The package puts zsh in bin/ or usr/bin/, depending on the release.
+          zsh_bin=$(find "$PWD/zsh-root" -path '*bin/zsh' -print -quit)
+          "$zsh_bin" --version
+          echo "ZSH_BIN=$zsh_bin" >> "$GITHUB_ENV"
       - name: zsh -n on the zsh files, sh -n on install.sh
         run: |
-          git ls-files -z -- .zshenv .zshrc .config/zsh/.zshrc '.config/zsh/*.zsh' '.config/zsh/completions/*' | xargs -0 -n1 "$RUNNER_TEMP/zsh-root/bin/zsh" -n
+          git ls-files -z -- .zshenv .zshrc .config/zsh/.zshrc '.config/zsh/*.zsh' '.config/zsh/completions/*' | xargs -0 -n1 "$ZSH_BIN" -n
           sh -n install.sh
