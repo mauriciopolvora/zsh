@@ -98,6 +98,16 @@ The config is defensive: if tools like `starship`, `eza`, `fzf`, `zoxide`, `bun`
 - Plugins are auto-cloned on first shell startup into `~/.config/zsh/plugins`.
 - Machine-specific overrides can live in `~/.config/zsh/local.zsh`.
 
+## Checks
+
+Turn on the gitleaks pre-commit hook once per clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+CI (`.github/workflows/ci.yml`) runs gitleaks on the new commits of each PR and push, `zsh -n` on the zsh files and `sh -n` on `install.sh`.
+
 ## Inspiration
 
 This setup was heavily inspired by [radleylewis/zsh](https://github.com/radleylewis/zsh).
